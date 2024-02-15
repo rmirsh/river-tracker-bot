@@ -12,7 +12,7 @@ from bot.handlers import main_router, subscription
 from bot.db.models import async_main
 
 
-dotenv.load_dotenv()
+dotenv.load_dotenv('../.env')
 TOKEN = os.getenv('TOKEN')
 
 

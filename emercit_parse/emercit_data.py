@@ -9,6 +9,7 @@ town_to_detector = {
     "Горячий Ключ": "АГК-0088",
     "Пятигорская": "ЭМЕРСИТ-0007Д"
 }
+towns = list(town_to_detector.keys())
 
 
 @dataclass(slots=True, frozen=True)

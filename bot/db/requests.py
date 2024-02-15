@@ -11,9 +11,9 @@ async def check_user_sub(user_id: int):
         return is_subscribed
 
 
-async def sub_user(user_id: int):
+async def sub_user(user_id: int, town: str):
     async with async_session() as session:
-        session.add(Subscription(telegram_id=user_id, is_subscribed=True))
+        session.add(Subscription(telegram_id=user_id, is_subscribed=True, town=town))
         await session.commit()
 
 
