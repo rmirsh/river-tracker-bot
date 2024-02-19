@@ -1,13 +1,18 @@
 from typing import List
 
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    ReplyKeyboardMarkup,
+    KeyboardButton,
+)
 
 
 def get_town_kb() -> InlineKeyboardMarkup:
     buttons = [
         [
             InlineKeyboardButton(text="Горячий Ключ", callback_data="goryachiy kluch"),
-            InlineKeyboardButton(text="Пятигорская", callback_data="pyatigorskaya")
+            InlineKeyboardButton(text="Пятигорская", callback_data="pyatigorskaya"),
         ]
     ]
     kb = InlineKeyboardMarkup(inline_keyboard=buttons)
@@ -19,7 +24,7 @@ def sub_kb() -> InlineKeyboardMarkup:
     buttons = [
         [
             InlineKeyboardButton(text="Подписаться", callback_data="subscribe"),
-            InlineKeyboardButton(text="Отписаться", callback_data="unsubscribe")
+            InlineKeyboardButton(text="Отписаться", callback_data="unsubscribe"),
         ],
     ]
     kb = InlineKeyboardMarkup(inline_keyboard=buttons)
@@ -33,15 +38,12 @@ def choose_town_kb() -> ReplyKeyboardMarkup:
     :return: объект реплай-клавиатуры
     """
     buttons = [
-        [
-            KeyboardButton(text="Горячий Ключ"),
-            KeyboardButton(text="Пятигорская")
-        ]
+        [KeyboardButton(text="Горячий Ключ"), KeyboardButton(text="Пятигорская")]
     ]
     kb = ReplyKeyboardMarkup(
         keyboard=buttons,
         resize_keyboard=True,
-        input_field_placeholder="Нажмите на кнопку ниже"
+        input_field_placeholder="Нажмите на кнопку ниже",
     )
 
     return kb

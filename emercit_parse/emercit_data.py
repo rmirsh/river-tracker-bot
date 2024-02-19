@@ -5,10 +5,7 @@ from dataclasses import dataclass
 
 ua = UserAgent()
 
-town_to_detector = {
-    "Горячий Ключ": "АГК-0088",
-    "Пятигорская": "ЭМЕРСИТ-0007Д"
-}
+town_to_detector = {"Горячий Ключ": "АГК-0088", "Пятигорская": "ЭМЕРСИТ-0007Д"}
 towns = list(town_to_detector.keys())
 
 
@@ -33,7 +30,7 @@ def parse_town_data(town_data) -> RiverData:
         current_river_level=round(river_level["level"]["bs"], 3),
         prevention_level=river_level["prevention"]["bs"],
         danger_level=river_level["danger"]["bs"],
-        time=river_level["time"]
+        time=river_level["time"],
     )
 
 
@@ -48,15 +45,15 @@ def get_town_data(data: dict, town: str) -> dict[str, float] | None:
 
 def get_data(url: str) -> dict[str, float | None]:
     headers = {
-        'Accept': '*/*',
-        'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-        'Pragma': 'no-cache',
-        'Referer': 'http://emercit.com/map/',
+        "Accept": "*/*",
+        "Accept-Language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive",
+        "Pragma": "no-cache",
+        "Referer": "http://emercit.com/map/",
         # 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'User-Agent': ua.random,
-        'X-Requested-With': 'XMLHttpRequest',
+        "User-Agent": ua.random,
+        "X-Requested-With": "XMLHttpRequest",
     }
 
     # params = {
