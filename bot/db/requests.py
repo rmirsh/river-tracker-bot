@@ -1,4 +1,7 @@
-from bot.db.models import Subscription, async_session, Town
+from .town import Town
+from .subscription import Subscription
+from .models import async_session
+
 from sqlalchemy import select, delete
 
 
