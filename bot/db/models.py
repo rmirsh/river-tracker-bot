@@ -1,35 +1,50 @@
-import os
-from typing import List
+from typing import TYPE_CHECKING
 
-from sqlalchemy import BigInteger, Text, ForeignKey
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine
-import dotenv
+from sqlalchemy import BigInteger, Text
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
+
+from bot.db.base import Base
+from config import settings
 
 
-dotenv.load_dotenv()
-
-engine = create_async_engine(os.getenv("SQLALCHEMY_ENGINE"), echo=True)
+engine = create_async_engine(settings.DB_URL, echo=True)
 async_session = async_sessionmaker(engine)
 
 
-class Base(AsyncAttrs, DeclarativeBase):
-    pass
+if TYPE_CHECKING:
+    from subscriptions_towns_association import SubscriptionTownAssociation
 
 
 class Town(Base):
-    __tablename__ = 'towns'
+    __tablename__ = "towns"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     town = mapped_column(Text)
+
+    subscriptions: Mapped[list["Subscription"]] = relationship(
+        secondary="subscriptions_towns_association",
+        back_populates="towns",
+    )
+    # association between Parent -> Association -> Child
+    subscriptions_details: Mapped[list["SubscriptionTownAssociation"]] = relationship(
+        back_populates="towns"
+    )
 
 
 class Subscription(Base):
-    __tablename__ = 'subscriptions'
+    __tablename__ = "subscriptions"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     telegram_id = mapped_column(BigInteger, nullable=False)
     is_subscribed: Mapped[bool] = mapped_column(default=False)
+
+    towns: Mapped[list["Town"]] = relationship(
+        secondary="subscriptions_towns_association",
+        back_populates="subscriptions",
+    )
+    # association between Parent -> Association -> Child
+    towns_details: Mapped[list["SubscriptionTownAssociation"]] = relationship(
+        back_populates="subscriptions"
+    )
 
 
 async def async_main():
