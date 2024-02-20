@@ -1,6 +1,5 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from bot.db.base import Base
@@ -13,7 +12,7 @@ if TYPE_CHECKING:
 
 class Town(Base):
 
-    town = mapped_column(Text)
+    town: Mapped[str] = mapped_column()
 
     subscriptions: Mapped[list["Subscription"]] = relationship(
         secondary="subscriptions_towns_association",
@@ -21,5 +20,5 @@ class Town(Base):
     )
     # association between Parent -> Association -> Child
     subscriptions_details: Mapped[list["SubscriptionTownAssociation"]] = relationship(
-        back_populates="towns"
+        back_populates="town"
     )
