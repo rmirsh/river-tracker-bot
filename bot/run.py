@@ -8,7 +8,7 @@ import warnings
 
 from bot.ui_commands import set_ui_commands
 from bot.handlers import main_router, subscription
-from bot.db.models import async_main
+from bot.db.make_models import async_main
 from config import settings
 
 
