@@ -13,6 +13,7 @@ router = Router()
 
 @router.message(StateFilter(None), Command("subscribe"))
 async def cmd_subscribe(message: types.Message, state: FSMContext):
+    await state.clear()
     await message.answer(
         "Я могу отправлять Вам уведомления каждые 30 минут, "
         "когда вода поднимется до опасного уровня.\n\n"
