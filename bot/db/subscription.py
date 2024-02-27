@@ -13,7 +13,8 @@ if TYPE_CHECKING:
 class Subscription(Base):
 
     telegram_id = mapped_column(BigInteger, nullable=False)
-    is_subscribed: Mapped[bool] = mapped_column(default=False)
+    is_subscribed: Mapped[bool] = mapped_column()
+    chat_id = mapped_column(BigInteger, nullable=False)
 
     towns: Mapped[list["Town"]] = relationship(
         secondary="subscriptions_towns_association",
