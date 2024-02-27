@@ -11,6 +11,7 @@ router = Router()
 async def cmd_start(message: types.Message):
     await message.answer(
         f"Привет, <b>{message.from_user.full_name}</b>! <u><i>Я пока в разработке</i></u>"
+        f"Chat ID: {message.chat.id}"
     )
     await message.answer(
         "Пожалуйста, выберите населённый пункт", reply_markup=get_town_kb()

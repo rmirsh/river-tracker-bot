@@ -1,3 +1,5 @@
+from typing import List, Dict
+
 import requests
 from fake_useragent import UserAgent
 
@@ -5,8 +7,11 @@ from dataclasses import dataclass
 
 ua = UserAgent()
 
-town_to_detector = {"Горячий Ключ": "АГК-0088", "Пятигорская": "ЭМЕРСИТ-0007Д"}
-towns = list(town_to_detector.keys())
+town_to_detector: Dict[str, str] = {
+    "Горячий Ключ": "АГК-0088",
+    "Пятигорская": "ЭМЕРСИТ-0007Д",
+}
+towns: List[str] = list(town_to_detector.keys())
 
 
 @dataclass(slots=True, frozen=True)
@@ -17,7 +22,7 @@ class RiverData:
     time: str
 
 
-def get_river_data(town):
+def get_river_data(town: str):
     data = get_data("http://emercit.com/map/overall.php")
     town_data = get_town_data(data, town)
     parsed_data = parse_town_data(town_data)
