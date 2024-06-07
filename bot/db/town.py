@@ -17,6 +17,7 @@ class Town(Base):
     subscriptions: Mapped[list["Subscription"]] = relationship(
         secondary="subscriptions_towns_association",
         back_populates="towns",
+        cascade="all, delete",
     )
     # association between Parent -> Association -> Child
     subscriptions_details: Mapped[list["SubscriptionTownAssociation"]] = relationship(

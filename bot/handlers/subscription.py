@@ -33,7 +33,7 @@ async def subscription_done(message: types.Message, state: FSMContext):
 
 
 @router.message(SubscriptionState.setting_sub, F.text == "Нет")
-async def subscription_done(message: types.Message, state: FSMContext):
+async def unsubscription_done(message: types.Message, state: FSMContext):
     await state.update_data(subscription=message.text.lower())
     await message.answer(
         "Вам не будут приходить уведомления.\n"
@@ -61,7 +61,7 @@ async def town_chosed(message: types.Message, state: FSMContext):
         f"в населённом пункте {message.text} достигнет опасных значений.",
         reply_markup=ReplyKeyboardRemove(),
     )
-    await requests.add_subscription(message.from_user.id, message.text)
+    await requests.add_subscription(message.from_user.id, message.text, message.chat.id)
     await state.clear()
 
 

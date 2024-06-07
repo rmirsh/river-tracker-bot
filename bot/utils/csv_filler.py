@@ -1,5 +1,6 @@
 import asyncio
 import csv
+import os
 
 from sqlalchemy import select
 
@@ -8,7 +9,9 @@ from bot.db.make_models import async_session
 
 
 async def fill_town_table_csv():
-    with open("towns_data.csv", "r") as csvfile:
+    with open(
+        "/Users/kamilayupov/Dev/my_projects/emercit_bot/bot/utils/towns_data.csv", "r"
+    ) as csvfile:
         reader = csv.DictReader(csvfile)
 
         async with async_session() as session:
@@ -20,6 +23,3 @@ async def fill_town_table_csv():
                     session.add(Town(town=row["town_name"]))
 
                 await session.commit()
-
-
-asyncio.run(fill_town_table_csv())

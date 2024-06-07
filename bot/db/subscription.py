@@ -13,12 +13,13 @@ if TYPE_CHECKING:
 class Subscription(Base):
 
     telegram_id = mapped_column(BigInteger, nullable=False)
-    is_subscribed: Mapped[bool] = mapped_column()
     chat_id = mapped_column(BigInteger, nullable=False)
+    is_subscribed: Mapped[bool] = mapped_column()
 
     towns: Mapped[list["Town"]] = relationship(
         secondary="subscriptions_towns_association",
         back_populates="subscriptions",
+        cascade="all, delete",
     )
     # association between Parent -> Association -> Child
     towns_details: Mapped[list["SubscriptionTownAssociation"]] = relationship(

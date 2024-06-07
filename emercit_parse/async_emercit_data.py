@@ -25,6 +25,7 @@ town_to_detector: Dict[str, str] = {
     "Горячий Ключ": "АГК-0088",
     "Пятигорская": "ЭМЕРСИТ-0007Д",
 }
+
 towns: List[str] = list(town_to_detector.keys())
 
 
@@ -64,12 +65,7 @@ def _format_town_data(data: dict, town: str) -> dict[str, float] | None:
 
 
 async def _get_data(url: str) -> dict[str, float | None]:
-
     async with aiohttp.ClientSession() as session:
-        # params = {
-        #     'time': '1705590664',
-        #     }
-
         response = await session.get(url, headers=HEADERS)
 
         return await response.json()
@@ -77,6 +73,8 @@ async def _get_data(url: str) -> dict[str, float | None]:
 
 async def main():
     await a_get_river_data("Пятигорская")
+    # data = await _get_data(URL)
+    # print(data["features"])
 
 
 if __name__ == "__main__":

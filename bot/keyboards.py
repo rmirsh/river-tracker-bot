@@ -11,8 +11,8 @@ from aiogram.types import (
 def get_town_kb() -> InlineKeyboardMarkup:
     buttons = [
         [
-            InlineKeyboardButton(text="Горячий Ключ", callback_data="goryachiy kluch"),
-            InlineKeyboardButton(text="Пятигорская", callback_data="pyatigorskaya"),
+            InlineKeyboardButton(text="Горячий Ключ", callback_data="Горячий Ключ"),
+            InlineKeyboardButton(text="Пятигорская", callback_data="Пятигорская"),
         ]
     ]
     kb = InlineKeyboardMarkup(inline_keyboard=buttons)
