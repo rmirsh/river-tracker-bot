@@ -37,11 +37,11 @@ class RiverData:
     time: str
 
 
-async def a_get_river_data(town: str):
+async def async_get_river_data(town: str):
     data = await _get_data(URL)
     town_data = _format_town_data(data, town)
     parsed_data = _parse_town_data(town_data)
-    print(parsed_data)
+    # print(parsed_data)
     return parsed_data
 
 
@@ -72,7 +72,7 @@ async def _get_data(url: str) -> dict[str, float | None]:
 
 
 async def main():
-    await a_get_river_data("Пятигорская")
+    await async_get_river_data("Пятигорская")
     # data = await _get_data(URL)
     # print(data["features"])
 
