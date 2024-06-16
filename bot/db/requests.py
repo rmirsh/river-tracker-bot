@@ -24,17 +24,6 @@ async def add_subscription(user_id: int, town: str, chat_id: int):
         await session.commit()
 
 
-async def check_user_sub(user_id: int) -> bool:
-    async with async_session() as session:
-        is_subscribed = await session.scalar(
-            select(Subscription.is_subscribed).where(
-                Subscription.telegram_id == user_id
-            )
-        )
-
-        return is_subscribed
-
-
 async def sub_user(user_id: int, town: str):
     async with async_session() as session:
         session.add(Subscription(telegram_id=user_id, is_subscribed=True, town=town))
@@ -57,8 +46,30 @@ async def delete_subscription(user_id: int):
         await session.commit()
 
 
-async def get_user():
-    async with async_session as session:
-        result = await session.execute(select(Subscription))
+async def check_user_sub(user_id: int) -> bool:
+    async with async_session() as session:
+        is_subscribed = await session.scalar(
+            select(Subscription.is_subscribed).where(
+                Subscription.telegram_id == user_id
+            )
+        )
 
-        return result.fetchall()
+        return is_subscribed
+
+
+async def get_users():
+    async with async_session() as session:
+        query = select(SubscriptionTownAssociation)
+        result = await session.execute(query)
+        users = result.all()
+
+        return users
+
+
+async def get_subs_chat_id():
+    async with async_session() as session:
+        query = select(Subscription.chat_id).join(SubscriptionTownAssociation)
+        result = await session.execute(query)
+        subscribers_chat_id = result.all()
+
+        return subscribers_chat_id
