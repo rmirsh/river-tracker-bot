@@ -10,7 +10,7 @@ from bot.ui_commands import set_ui_commands
 from bot.handlers import start, subscription
 from bot.db.make_models import async_main
 from bot.utils.csv_filler import fill_town_table_csv
-from bot.utils.subs_mailing import on_startup
+from bot.utils.notifications import on_startup
 from config import settings
 
 
