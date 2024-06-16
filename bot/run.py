@@ -20,7 +20,7 @@ async def main():
     warnings.filterwarnings("ignore", category=DeprecationWarning)
     bot = Bot(settings.TOKEN, parse_mode=ParseMode.HTML)
     dp = Dispatcher()
-    # dp.startup.register(on_startup)
+    dp.startup.register(on_startup)
     dp.startup.register(fill_town_table_csv)
     dp.include_routers(start.router, subscription.router)
 
