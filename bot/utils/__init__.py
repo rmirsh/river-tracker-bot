@@ -1,3 +1,3 @@
 from . import states
-from . import subs_mailing
+from . import notifications
 from . import csv_filler
