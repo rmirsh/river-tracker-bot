@@ -8,7 +8,7 @@ from bot.db import Town
 from bot.db.make_models import async_session
 
 
-async def fill_town_table_csv():
+async def insert_town_table_csv():
     with open(
         "/Users/kamilayupov/Dev/my_projects/emercit_bot/bot/utils/towns_data.csv", "r"
     ) as csvfile:
