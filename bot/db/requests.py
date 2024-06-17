@@ -66,10 +66,16 @@ async def get_users():
         return users
 
 
-async def get_subs_chat_id():
+async def get_subs_chat_id_and_town():
     async with async_session() as session:
-        query = select(Subscription.chat_id).join(SubscriptionTownAssociation)
-        result = await session.execute(query)
-        subscribers_chat_id = result.all()
+        result = await session.execute(
+            select(Subscription.chat_id, Town.town)
+            .join(
+                SubscriptionTownAssociation,
+                Subscription.id == SubscriptionTownAssociation.subscription_id,
+            )
+            .join(Town, Town.id == SubscriptionTownAssociation.town_id)
+        )
+        subs_and_towns = result.all()
 
-        return subscribers_chat_id
+    return subs_and_towns
