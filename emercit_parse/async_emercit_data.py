@@ -1,7 +1,6 @@
 import asyncio
 from typing import List, Dict
 
-import requests
 import aiohttp
 from fake_useragent import UserAgent
 
@@ -73,8 +72,6 @@ async def _get_data(url: str) -> dict[str, float | None]:
 
 async def main():
     await async_get_river_data("Пятигорская")
-    # data = await _get_data(URL)
-    # print(data["features"])
 
 
 if __name__ == "__main__":
