@@ -9,7 +9,7 @@ import warnings
 from bot.ui_commands import set_ui_commands
 from bot.handlers import start, subscription
 from bot.db.make_models import async_main
-from bot.utils.csv_filler import fill_town_table_csv
+from bot.utils.csv_filler import insert_town_table_csv
 from bot.utils.notifications import on_startup
 from config import settings
 
@@ -21,7 +21,7 @@ async def main():
     bot = Bot(settings.TOKEN, parse_mode=ParseMode.HTML)
     dp = Dispatcher()
     dp.startup.register(on_startup)
-    dp.startup.register(fill_town_table_csv)
+    dp.startup.register(insert_town_table_csv)
     dp.include_routers(start.router, subscription.router)
 
     await set_ui_commands(bot)
