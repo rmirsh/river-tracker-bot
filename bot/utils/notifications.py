@@ -2,26 +2,30 @@ import asyncio
 
 from aiogram import Bot
 
-from bot.db.requests import get_subs_chat_id
-from emercit_parse.async_emercit_data import async_get_river_data, towns
+from bot.db.requests import get_subs_chat_id_and_town
+from emercit_parse.async_emercit_data import async_get_river_data
 
 
 async def send_warning(bot: Bot) -> None:
     while True:
-        for town in towns:
+        subs_id_town = await get_subs_chat_id_and_town()
+        for row in subs_id_town:
+            chat_id, town = row
             river_data = await async_get_river_data(town)
-            if river_data.current_river_level < river_data.prevention_level:
-                subs_id = await get_subs_chat_id()
-                subs_id_integers = convert_nested_list_to_integers(subs_id)
-                for sub_id in subs_id_integers:
-                    await bot.send_message(sub_id, f"{town}")
-                    await asyncio.sleep(2)
-
-
-def convert_nested_list_to_integers(nested_list: list[list[str]]) -> list[int]:
-    list_of_integers = [int(string) for row in nested_list for string in row]
-
-    return list_of_integers
+            # if True:
+            if river_data.current_river_level >= river_data.prevention_level:
+                await bot.send_message(
+                    chat_id,
+                    f"Возможно затопление в населённом пункте {town}.\n"
+                    f"Текущий уровень воды - {river_data.current_river_level}",
+                )
+            elif river_data.current_river_level >= river_data.danger_level:
+                await bot.send_message(
+                    chat_id,
+                    f"Уровень воды поднялся до опасных значений.\n"
+                    f"Текущий уровень воды - {river_data.current_river_level}",
+                )
+        await asyncio.sleep(60*30)
 
 
 async def on_startup(bot: Bot):
