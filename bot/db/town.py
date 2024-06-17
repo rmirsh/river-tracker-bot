@@ -11,15 +11,17 @@ if TYPE_CHECKING:
 
 
 class Town(Base):
+    __tablename__ = "towns"
 
-    town: Mapped[str] = mapped_column()
+    id: Mapped[int] = mapped_column(primary_key=True)
+    town: Mapped[str] = mapped_column(nullable=False)
 
     subscriptions: Mapped[list["Subscription"]] = relationship(
         secondary="subscriptions_towns_association",
         back_populates="towns",
         cascade="all, delete",
+        overlaps="subscriptions_details,subscriptions",
     )
-    # association between Parent -> Association -> Child
     subscriptions_details: Mapped[list["SubscriptionTownAssociation"]] = relationship(
-        back_populates="town"
+        back_populates="town", overlaps="subscriptions,towns"
     )

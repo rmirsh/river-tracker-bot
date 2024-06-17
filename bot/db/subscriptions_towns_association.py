@@ -21,14 +21,14 @@ class SubscriptionTownAssociation(Base):
         ),
     )
 
-    subscription_id: Mapped[int] = mapped_column(ForeignKey("subscriptions.id"))
-    town_id: Mapped[int] = mapped_column(ForeignKey("towns.id"))
-
-    # association between Association -> Subscription
-    subscription: Mapped["Subscription"] = relationship(
-        back_populates="towns_details",
+    subscription_id: Mapped[int] = mapped_column(
+        ForeignKey("subscriptions.id"), primary_key=True
     )
-    # association between Association -> Town
+    town_id: Mapped[int] = mapped_column(ForeignKey("towns.id"), primary_key=True)
+
+    subscription: Mapped["Subscription"] = relationship(
+        back_populates="towns_details", overlaps="subscriptions,towns"
+    )
     town: Mapped["Town"] = relationship(
-        back_populates="subscriptions_details",
+        back_populates="subscriptions_details", overlaps="subscriptions,towns"
     )
