@@ -2,7 +2,7 @@ from aiogram import Router, types, F
 from aiogram.filters import CommandStart
 
 from bot.keyboards import get_town_kb
-from emercit_parse.emercit_data import get_river_data, towns
+from emercit_parse.async_emercit_parser import async_get_river_data, towns
 
 router = Router()
 
@@ -20,7 +20,7 @@ async def cmd_start(message: types.Message):
 @router.callback_query(F.data.in_(towns))
 async def send_river_data(callback: types.CallbackQuery):
 
-    river_data = get_river_data(callback.data)
+    river_data = await async_get_river_data(callback.data)
     date = river_data.time.split()[0]
     time = river_data.time.split()[1][:-3]
 
