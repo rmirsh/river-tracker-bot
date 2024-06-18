@@ -3,7 +3,8 @@ import asyncio
 from aiogram import Bot
 
 from bot.db.requests import get_subs_chat_id_and_town
-from emercit_parse.async_emercit_data import async_get_river_data
+from config import settings
+from emercit_parse.async_emercit_parser import async_get_river_data
 
 
 async def send_warning(bot: Bot) -> None:
@@ -24,7 +25,7 @@ async def send_warning(bot: Bot) -> None:
                     f"<u><b>‼️️ОПАСНОСТЬ‼️</b></u>\nУровень воды поднялся до опасных значений.\n"
                     f"Текущий уровень воды - {river_data.current_river_level}",
                 )
-        await asyncio.sleep(60 * 30)
+        await asyncio.sleep(settings.DELAY)
 
 
 async def on_startup(bot: Bot):

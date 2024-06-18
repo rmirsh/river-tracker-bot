@@ -6,7 +6,7 @@ from aiogram.types import ReplyKeyboardRemove
 from bot.db import requests
 from bot.keyboards import make_row_keyboard
 from bot.utils.states import SubscriptionState
-from emercit_parse.emercit_data import towns
+from emercit_parse.emercit_parser import towns
 
 router = Router()
 
