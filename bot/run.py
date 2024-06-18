@@ -1,10 +1,10 @@
 from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 
 import asyncio
 import logging
 import sys
-import warnings
 
 from bot.ui_commands import set_ui_commands
 from bot.handlers import start, subscription
@@ -17,8 +17,12 @@ from config import settings
 async def main():
     await async_main()
 
-    warnings.filterwarnings("ignore", category=DeprecationWarning)
-    bot = Bot(settings.TOKEN, parse_mode=ParseMode.HTML)
+    bot = Bot(
+        settings.TOKEN,
+        default=DefaultBotProperties(
+            parse_mode=ParseMode.HTML,
+        ),
+    )
     dp = Dispatcher()
     dp.startup.register(on_startup)
     dp.startup.register(insert_town_table_csv)
