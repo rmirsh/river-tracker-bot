@@ -11,7 +11,6 @@ async def add_subscription(user_id: int, town: str, chat_id: int):
         session.add(
             Subscription(telegram_id=user_id, is_subscribed=True, chat_id=chat_id)
         )
-        # await session.commit()
         subscription_id = await session.scalar(
             select(Subscription.id).where(Subscription.telegram_id == user_id)
         )

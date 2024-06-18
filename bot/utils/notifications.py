@@ -12,20 +12,19 @@ async def send_warning(bot: Bot) -> None:
         for row in subs_id_town:
             chat_id, town = row
             river_data = await async_get_river_data(town)
-            # if True:
             if river_data.current_river_level >= river_data.prevention_level:
                 await bot.send_message(
                     chat_id,
-                    f"Возможно затопление в населённом пункте {town}.\n"
+                    f"<b>❗️УГРОЗА❗️\n</b>Возможно затопление в населённом пункте {town}.\n"
                     f"Текущий уровень воды - {river_data.current_river_level}",
                 )
             elif river_data.current_river_level >= river_data.danger_level:
                 await bot.send_message(
                     chat_id,
-                    f"Уровень воды поднялся до опасных значений.\n"
+                    f"<u><b>‼️️ОПАСНОСТЬ‼️</b></u>\nУровень воды поднялся до опасных значений.\n"
                     f"Текущий уровень воды - {river_data.current_river_level}",
                 )
-        await asyncio.sleep(60*30)
+        await asyncio.sleep(60 * 30)
 
 
 async def on_startup(bot: Bot):

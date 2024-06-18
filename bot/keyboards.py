@@ -59,5 +59,4 @@ def make_row_keyboard(items: list[str] | str) -> ReplyKeyboardMarkup:
         items = [items]
 
     row = [KeyboardButton(text=item) for item in items]
-    # TRY one time keyboard
     return ReplyKeyboardMarkup(keyboard=[row], resize_keyboard=True)
