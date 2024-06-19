@@ -1,6 +1,6 @@
 from bot.db import SubscriptionTownAssociation
-from bot.db.town import Town
-from bot.db.subscription import Subscription
+from bot.db import Town
+from bot.db import Subscription
 from bot.db.make_models import async_session
 
 from sqlalchemy import select, delete
