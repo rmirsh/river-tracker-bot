@@ -12,6 +12,7 @@ if TYPE_CHECKING:
 
 class Town(Base):
     __tablename__ = "towns"
+    __table_args__ = {"extend_existing": True}
 
     id: Mapped[int] = mapped_column(primary_key=True)
     town: Mapped[str] = mapped_column(nullable=False)
