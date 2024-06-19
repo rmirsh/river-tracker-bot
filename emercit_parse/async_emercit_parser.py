@@ -4,7 +4,7 @@ from typing import List, Dict
 import aiohttp
 from fake_useragent import UserAgent
 
-from emercit_parser import RiverData
+from emercit_parse.emercit_parser import RiverData
 
 ua = UserAgent()
 
