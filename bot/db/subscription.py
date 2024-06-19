@@ -12,6 +12,7 @@ if TYPE_CHECKING:
 
 class Subscription(Base):
     __tablename__ = "subscriptions"
+    # __table_args__ = {"extend_existing": True}
 
     telegram_id = mapped_column(BigInteger, nullable=False)
     chat_id = mapped_column(BigInteger, nullable=False)

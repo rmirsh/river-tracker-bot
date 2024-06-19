@@ -19,6 +19,7 @@ class SubscriptionTownAssociation(Base):
             "town_id",
             name="idx_unique_subscription_town",
         ),
+        # {"extend_existing": True},
     )
 
     subscription_id: Mapped[int] = mapped_column(
