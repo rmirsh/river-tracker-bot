@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+  db:
+    image: postgres:16-alpine
+    env_file:
+      - ./.env_prod
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: on-failure
+    ports:
+      - "5432:5432"
+  bot:
+    build: .
+    command: sh -c "python bot/run.py"
+    env_file:
+      - ./.env_prod
+    restart: always
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
