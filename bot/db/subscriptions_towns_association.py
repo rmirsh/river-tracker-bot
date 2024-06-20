@@ -23,7 +23,7 @@ class SubscriptionTownAssociation(Base):
     )
 
     subscription_id: Mapped[int] = mapped_column(
-        ForeignKey("subscriptions.id"), primary_key=True
+        ForeignKey("subscriptions.id"), primary_key=True, autoincrement=True
     )
     town_id: Mapped[int] = mapped_column(ForeignKey("towns.id"), primary_key=True)
 
