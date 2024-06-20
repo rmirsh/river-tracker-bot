@@ -9,7 +9,7 @@ from bot.db.make_models import async_session
 
 
 async def insert_town_table_csv():
-    with open("app/bot/utils/towns_data.csv", "r") as csvfile:
+    with open("/app/bot/utils/towns_data.csv", "r") as csvfile:
         reader = csv.DictReader(csvfile)
 
         async with async_session() as session:
