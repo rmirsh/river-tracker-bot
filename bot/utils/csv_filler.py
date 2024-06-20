@@ -10,7 +10,7 @@ from bot.db.make_models import async_session
 
 async def insert_town_table_csv():
     with open(
-        "/Users/kamilayupov/Dev/my_projects/emercit_bot/bot/utils/towns_data.csv", "r"
+        "towns_data.csv", "r"
     ) as csvfile:
         reader = csv.DictReader(csvfile)
 
