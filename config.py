@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     TOKEN: str = Field(env="TOKEN")
     DELAY: int = Field(env="DELAY", default=30 * 60)
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+    model_config = SettingsConfigDict(env_file=".env_prod", env_file_encoding="utf-8")
 
 
 @cache
