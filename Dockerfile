@@ -10,4 +10,5 @@ COPY . .
 
 ENV PYTHONPATH=/app
 
-CMD ["python", "bot/run.py"]
+#CMD ["python", "bot/run.py"]
+CMD ["sh", "-c", "sleep 10 && python bot/run.py"]
