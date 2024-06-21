@@ -17,13 +17,13 @@ async def send_warning(bot: Bot) -> None:
                 await bot.send_message(
                     chat_id,
                     f"<b>❗️УГРОЗА❗️\n</b>Возможно затопление в населённом пункте {town}.\n"
-                    f"Текущий уровень воды - {river_data.current_river_level}",
+                    f"Текущий уровень воды - <b>{river_data.current_river_level} м</b>",
                 )
             elif river_data.current_river_level >= river_data.danger_level:
                 await bot.send_message(
                     chat_id,
-                    f"<u><b>‼️️ОПАСНОСТЬ‼️</b></u>\nУровень воды поднялся до опасных значений.\n"
-                    f"Текущий уровень воды - {river_data.current_river_level}",
+                    f"<u><b>‼️️ОПАСНОСТЬ‼️</b></u>\nУровень воды в населённом пункте {town} поднялся о опасных значений.\n"
+                    f"Текущий уровень воды - <b>{river_data.current_river_level} м</b>",
                 )
         await asyncio.sleep(settings.DELAY)
 

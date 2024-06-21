@@ -33,10 +33,10 @@ async def send_river_data(callback: types.CallbackQuery):
         await callback.message.answer(answer_message)
 
     await callback.message.answer(
-        f"На {date} в {time}, в населённом пункте {callback.data}:\n\n"
-        f"Текущий уровень воды: {river_data.current_river_level}\n"
-        f"Предупредительный уровень воды: {river_data.prevention_level}\n"
-        f"Опасный уровень воды: {river_data.danger_level}\n"
+        f"На {date} в {time}, в населённом пункте <i>{callback.data}</i>:\n\n"
+        f"Текущий уровень воды: <b>{river_data.current_river_level} м</b>\n"
+        f"Предупредительный уровень воды: <b>{river_data.prevention_level} м</b>\n"
+        f"Опасный уровень воды: <b>{river_data.danger_level} м</b>\n"
     )
 
     await callback.answer()
