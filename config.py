@@ -18,6 +18,12 @@ class Settings(BaseSettings):
 
 @cache
 def get_settings() -> Settings:
+    """Return an instance of Settings.
+
+    Returns:
+        Settings: An instance of the Settings class.
+    """
+
     return Settings()
 
 

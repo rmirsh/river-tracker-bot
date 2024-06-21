@@ -9,6 +9,13 @@ from bot.db.make_models import async_session
 
 
 async def insert_town_table_csv():
+    """Insert town data from a CSV file into the database.
+
+    Reads the data from the specified CSV file containing town information.
+    For each row in the CSV, it checks if the town already exists in the
+    database. If not, it adds the town to the database.
+    """
+
     with open("/app/bot/utils/towns_data.csv", "r") as csvfile:
         reader = csv.DictReader(csvfile)
 
