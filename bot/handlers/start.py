@@ -9,6 +9,15 @@ router = Router()
 
 @router.message(CommandStart())
 async def cmd_start(message: types.Message):
+    """Start command handler for the bot.
+
+    Greets the user with a personalized message and prompts them to select a
+    town.
+
+    Args:
+        message (types.Message): The message object containing user information.
+    """
+
     # await message.answer(
     #     f"Привет, <b>{message.from_user.full_name}</b>! <u><i>Я пока в разработке</i></u>"
     # )
@@ -21,6 +30,13 @@ async def cmd_start(message: types.Message):
 
 @router.callback_query(F.data.in_(towns))
 async def send_river_data(callback: types.CallbackQuery):
+    """Send river data information based on the current river level compared to
+    danger and prevention levels.
+
+    Args:
+        callback (types.CallbackQuery): The callback query object.
+    """
+
 
     river_data = await async_get_river_data(callback.data)
     date = river_data.time.split()[0]

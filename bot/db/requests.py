@@ -7,6 +7,18 @@ from sqlalchemy import select, delete
 
 
 async def add_subscription(user_id: int, town: str, chat_id: int):
+    """Add a new subscription for a user in a specific town.
+
+    This function adds a new subscription for a user in a specific town by
+    creating entries in the database for Subscription and
+    SubscriptionTownAssociation.
+
+    Args:
+        user_id (int): The unique identifier of the user.
+        town (str): The name of the town for which the user is subscribing.
+        chat_id (int): The chat ID associated with the subscription.
+    """
+
     async with async_session() as session:
         session.add(
             Subscription(telegram_id=user_id, is_subscribed=True, chat_id=chat_id)
@@ -24,12 +36,28 @@ async def add_subscription(user_id: int, town: str, chat_id: int):
 
 
 async def sub_user(user_id: int, town: str):
+    """Subscribe a user to receive updates for a specific town.
+
+    This function adds a new subscription for the user identified by user_id
+    to receive updates for the specified town.
+
+    Args:
+        user_id (int): The unique identifier of the user.
+        town (str): The name of the town for which the user is subscribing.
+    """
+
     async with async_session() as session:
         session.add(Subscription(telegram_id=user_id, is_subscribed=True, town=town))
         await session.commit()
 
 
 async def unsub_user(user_id: int):
+    """Unsubscribe a user from the subscription list based on user ID.
+
+    Args:
+        user_id (int): The ID of the user to be unsubscribed.
+    """
+
     async with async_session() as session:
         await session.execute(
             delete(Subscription).where(Subscription.telegram_id == user_id)
@@ -38,6 +66,12 @@ async def unsub_user(user_id: int):
 
 
 async def delete_subscription(user_id: int):
+    """Delete a subscription for a user based on the user ID.
+
+    Args:
+        user_id (int): The ID of the user whose subscription needs to be deleted.
+    """
+
     async with async_session() as session:
         await session.execute(
             delete(Subscription).where(Subscription.telegram_id == user_id)
@@ -46,6 +80,18 @@ async def delete_subscription(user_id: int):
 
 
 async def check_user_sub(user_id: int) -> bool:
+    """Check if a user is subscribed.
+
+    This function checks if a user with the given user_id is subscribed by
+    querying the database.
+
+    Args:
+        user_id (int): The user ID to check subscription for.
+
+    Returns:
+        bool: True if the user is subscribed, False otherwise.
+    """
+
     async with async_session() as session:
         is_subscribed = await session.scalar(
             select(Subscription.is_subscribed).where(
@@ -57,6 +103,15 @@ async def check_user_sub(user_id: int) -> bool:
 
 
 async def get_users():
+    """Retrieve a list of users from the database.
+
+    This function asynchronously fetches a list of users from the database
+    using an async session.
+
+    Returns:
+        list: A list of user objects retrieved from the database.
+    """
+
     async with async_session() as session:
         query = select(SubscriptionTownAssociation)
         result = await session.execute(query)
@@ -66,6 +121,18 @@ async def get_users():
 
 
 async def get_subs_chat_id_and_town():
+    """Retrieve the chat ID and town information for all subscriptions.
+
+    This function queries the database to fetch the chat ID and
+    corresponding town information for all subscriptions. It performs a join
+    operation between the Subscription, SubscriptionTownAssociation, and
+    Town tables to gather the required data.
+
+    Returns:
+        list: A list of tuples containing chat ID and town information for each
+            subscription.
+    """
+
     async with async_session() as session:
         result = await session.execute(
             select(Subscription.chat_id, Town.town)

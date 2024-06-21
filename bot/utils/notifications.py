@@ -8,6 +8,13 @@ from emercit_parse.async_emercit_parser import async_get_river_data
 
 
 async def send_warning(bot: Bot) -> None:
+    """Continuously checks river data for each town and sends warning messages
+    if necessary.
+
+    Args:
+        bot (Bot): The bot instance used to send messages.
+    """
+
     while True:
         subs_id_town = await get_subs_chat_id_and_town()
         for row in subs_id_town:
@@ -29,4 +36,13 @@ async def send_warning(bot: Bot) -> None:
 
 
 async def on_startup(bot: Bot):
+    """Perform tasks when the bot starts up.
+
+    This function creates a new asynchronous task to send a warning message
+    using the provided bot instance.
+
+    Args:
+        bot (Bot): The bot instance that triggers the startup.
+    """
+
     asyncio.create_task(send_warning(bot))
