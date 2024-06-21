@@ -51,7 +51,7 @@ def sub_kb() -> InlineKeyboardMarkup:
 
 
 def choose_town_kb() -> ReplyKeyboardMarkup:
-    """    Возвращает клавиатуру для выбора между двумя городами.
+    """Возвращает клавиатуру для выбора между двумя городами.
 
     Returns:
         ReplyKeyboardMarkup: Объект реплай-клавиатуры для выбора города.
@@ -69,7 +69,7 @@ def choose_town_kb() -> ReplyKeyboardMarkup:
 
 
 def make_row_keyboard(items: list[str] | str) -> ReplyKeyboardMarkup:
-    """    Creates a reply keyboard with buttons in a single row.
+    """Creates a reply keyboard with buttons in a single row.
 
     Args:
         items (list[str] | str): A list of texts for the buttons or a single text for the button.

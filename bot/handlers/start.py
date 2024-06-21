@@ -22,7 +22,7 @@ async def cmd_start(message: types.Message):
     #     f"Привет, <b>{message.from_user.full_name}</b>! <u><i>Я пока в разработке</i></u>"
     # )
     await message.answer(
-        f"Привет, <b>{message.from_user.full_name}</b>!"
+        f"Привет, <b>{message.from_user.full_name}</b>!\n"
         "Пожалуйста, выберите населённый пункт.",
         reply_markup=get_town_kb(),
     )
@@ -37,7 +37,6 @@ async def send_river_data(callback: types.CallbackQuery):
         callback (types.CallbackQuery): The callback query object.
     """
 
-
     river_data = await async_get_river_data(callback.data)
     date = river_data.time.split()[0]
     time = river_data.time.split()[1][:-3]
@@ -51,7 +50,7 @@ async def send_river_data(callback: types.CallbackQuery):
         await callback.message.answer(answer_message)
 
     await callback.message.answer(
-        f"На {date} в {time}, в населённом пункте <i>{callback.data}</i>:\n\n"
+        f"<u>На {date} в {time}, в населённом пункте <i>{callback.data}</i>:</u>\n"
         f"Текущий уровень воды: <b>{river_data.current_river_level} м</b>\n"
         f"Предупредительный уровень воды: <b>{river_data.prevention_level} м</b>\n"
         f"Опасный уровень воды: <b>{river_data.danger_level} м</b>\n"
