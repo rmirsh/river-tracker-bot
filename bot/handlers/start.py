@@ -13,7 +13,9 @@ async def cmd_start(message: types.Message):
     #     f"Привет, <b>{message.from_user.full_name}</b>! <u><i>Я пока в разработке</i></u>"
     # )
     await message.answer(
-        "Пожалуйста, выберите населённый пункт", reply_markup=get_town_kb()
+        f"Привет, <b>{message.from_user.full_name}</b>!"
+        "Пожалуйста, выберите населённый пункт.",
+        reply_markup=get_town_kb(),
     )
 
 
