@@ -44,7 +44,7 @@
    docker-compose up -d
     ```
 
-    Или простым напрямую через `bash`:
+    Или просто напрямую через `bash`:
 
     ```
    python run.py
@@ -58,4 +58,4 @@
 - aiogram
 - sqlalchemy
 - aiohttp
-- [API для получения данных об уровнях рек](https;//emercit.com)
+- [API для получения данных об уровнях рек](https://ru.emercit.com/)
