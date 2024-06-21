@@ -27,7 +27,7 @@
    
 2. Заполните файл `.env`:
 
-    ```
+    ```dotenv
     DB_URL=your_db_url
     TOKEN=your_bot_token_from_BotFather
     DELAY=delay_in_notifications
@@ -38,7 +38,17 @@
     POSTGRES_PASSWORD=
     POSTGRES_DB=
 
-3. Запустите бота через `docker-compose`:
+3. Установите зависимости:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+   Или
+   ```bash
+   poetry install
+   ```
+
+4. Запустите бота через `docker-compose`:
 
     ```bash
    docker-compose up -d
