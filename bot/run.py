@@ -8,7 +8,6 @@ import sys
 
 from bot.ui_commands import set_ui_commands
 from bot.handlers import start, subscription
-from bot.db.make_models import async_main
 from bot.utils.csv_filler import insert_town_table_csv
 from bot.utils.notifications import on_startup
 from config import settings
@@ -25,7 +24,8 @@ async def main():
         None.
     """
 
-    await async_main()
+    # Delegated to alembic
+    # await async_main()
 
     bot = Bot(
         settings.TOKEN,
