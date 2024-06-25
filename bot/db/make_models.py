@@ -8,6 +8,8 @@ engine = create_async_engine(settings.DB_URL, echo=False)
 async_session = async_sessionmaker(engine)
 
 
+@DeprecationWarning
 async def async_main():
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+    # async with engine.begin() as conn:
+    #     await conn.run_sync(Base.metadata.create_all)
+    ...
