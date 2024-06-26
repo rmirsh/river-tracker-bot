@@ -11,7 +11,7 @@ services:
       - "5432:5432"
   bot:
     build: .
-    command: sh -c "python bot/run.py"
+    command: sh -c "make migrate && python bot/run.py"
     env_file:
       - ./.env_prod
     restart: always
