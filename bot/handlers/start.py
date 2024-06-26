@@ -10,7 +10,7 @@ router = Router()
 
 @router.message(CommandStart())
 async def cmd_start(message: types.Message):
-    """Start command handler for the bot.
+    """    Start command handler for the bot.
 
     Greets the user with a personalized message and prompts them to select a
     town.
