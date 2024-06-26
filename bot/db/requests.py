@@ -145,3 +145,26 @@ async def get_subs_chat_id_and_town():
         subs_and_towns = result.all()
 
     return subs_and_towns
+
+
+async def is_first_time(user_id: int) -> bool:
+    """Check if a user is subscribed.
+
+    This function checks if a user with the given user_id is first time using bot by
+    querying the database.
+
+    Args:
+        user_id (int): The user ID to check subscription for.
+
+    Returns:
+        is_first_time (bool): True if the user is first time using bot, False otherwise.
+    """
+
+    async with async_session() as session:
+        first_time = await session.scalar(
+            select(Subscription.is_first_time).where(
+                Subscription.telegram_id == user_id
+            )
+        )
+
+    return first_time
