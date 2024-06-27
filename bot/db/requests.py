@@ -166,6 +166,8 @@ async def is_first_time(user_id: int) -> bool:
                 Subscription.telegram_id == user_id
             )
         )
+        if not await is_user_exists(user_id):
+            return False
 
     return first_time
 
