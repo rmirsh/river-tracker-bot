@@ -3,7 +3,7 @@ from aiogram.types import BotCommandScopeAllPrivateChats, BotCommand
 
 
 async def set_ui_commands(bot: Bot):
-    """Set the UI commands for the bot.
+    """    Set the UI commands for the bot.
 
     This function sets the UI commands for the bot using the provided Bot
     instance.
