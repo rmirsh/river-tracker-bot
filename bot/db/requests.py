@@ -167,9 +167,9 @@ async def is_first_time(user_id: int) -> bool:
             )
         )
         if not await is_user_exists(user_id):
-            return False
+            return True
 
-    return first_time
+    return ~first_time
 
 
 async def is_user_exists(user_id: int) -> bool:
