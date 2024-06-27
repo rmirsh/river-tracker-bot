@@ -15,7 +15,7 @@ class Subscription(Base):
 
     telegram_id = mapped_column(BigInteger, nullable=False)
     chat_id = mapped_column(BigInteger, nullable=False)
-    is_subscribed: Mapped[bool] = mapped_column(nullable=False)
+    is_subscribed: Mapped[bool] = mapped_column(nullable=True, default=False)
     is_first_time: Mapped[bool] = mapped_column(nullable=True, default=True)
 
     towns: Mapped[list["Town"]] = relationship(

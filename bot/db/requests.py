@@ -20,8 +20,10 @@ async def add_subscription(user_id: int, town: str, chat_id: int):
     """
 
     async with async_session() as session:
-        session.add(
-            Subscription(telegram_id=user_id, is_subscribed=True, chat_id=chat_id)
+        await session.execute(
+            update(Subscription)
+            .where(Subscription.telegram_id == user_id)
+            .values(is_subscrideb=True, chat_id=chat_id, town=town)
         )
         subscription_id = await session.scalar(
             select(Subscription.id).where(Subscription.telegram_id == user_id)
@@ -31,36 +33,6 @@ async def add_subscription(user_id: int, town: str, chat_id: int):
             SubscriptionTownAssociation(
                 subscription_id=subscription_id, town_id=town_id
             )
-        )
-        await session.commit()
-
-
-async def sub_user(user_id: int, town: str):
-    """Subscribe a user to receive updates for a specific town.
-
-    This function adds a new subscription for the user identified by user_id
-    to receive updates for the specified town.
-
-    Args:
-        user_id (int): The unique identifier of the user.
-        town (str): The name of the town for which the user is subscribing.
-    """
-
-    async with async_session() as session:
-        session.add(Subscription(telegram_id=user_id, is_subscribed=True, town=town))
-        await session.commit()
-
-
-async def unsub_user(user_id: int):
-    """Unsubscribe a user from the subscription list based on user ID.
-
-    Args:
-        user_id (int): The ID of the user to be unsubscribed.
-    """
-
-    async with async_session() as session:
-        await session.execute(
-            delete(Subscription).where(Subscription.telegram_id == user_id)
         )
         await session.commit()
 
@@ -211,5 +183,12 @@ async def set_first_time(user_id: int) -> None:
                 .values(is_first_time=True)
             )
         else:
-            session.add(Subscription(is_first_time=True))
+            session.add(
+                Subscription(
+                    telegram_id=user_id,
+                    chat_id=user_id,
+                    is_subscribed=False,
+                    is_first_time=True,
+                )
+            )
         await session.commit()
