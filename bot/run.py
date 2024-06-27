@@ -14,7 +14,7 @@ from config import settings
 
 
 async def main():
-    """Run the main function of the program.
+    """    Run the main function of the program.
 
     This function initializes the bot, sets up the dispatcher, registers
     startup functions, includes routers, sets UI commands, deletes webhook,
