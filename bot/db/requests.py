@@ -3,7 +3,7 @@ from bot.db import Town
 from bot.db import Subscription
 from bot.db.make_models import async_session
 
-from sqlalchemy import select, delete
+from sqlalchemy import select, delete, update
 
 
 async def add_subscription(user_id: int, town: str, chat_id: int):
@@ -168,3 +168,46 @@ async def is_first_time(user_id: int) -> bool:
         )
 
     return first_time
+
+
+async def is_user_exists(user_id: int) -> bool:
+    """Check if a user exists in the database.
+
+    This function checks if a user with the given user_id exists in the
+    database by querying the database.
+
+    Args:
+        user_id (int): The user ID to check for existence.
+
+    Returns:
+        bool: True if the user exists in the database, False otherwise.
+    """
+
+    async with async_session() as session:
+        exists = await session.scalar(
+            select(Subscription).where(Subscription.telegram_id == user_id)
+        )
+
+    return bool(exists)
+
+
+async def set_first_time(user_id: int) -> None:
+    """Set the first time flag for a user.
+
+    This function sets the first time flag for a user with the given user_id
+    in the database.
+
+    Args:
+        user_id (int): The user ID for which the first time flag needs to be set.
+    """
+
+    async with async_session() as session:
+        if is_user_exists(user_id):
+            await session.execute(
+                update(Subscription)
+                .where(Subscription.telegram_id == user_id)
+                .values(is_first_time=True)
+            )
+        else:
+            session.add(Subscription(is_first_time=True))
+        await session.commit()
