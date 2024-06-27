@@ -148,16 +148,17 @@ async def get_subs_chat_id_and_town():
 
 
 async def is_first_time(user_id: int) -> bool:
-    """Check if a user is subscribed.
+    """    Check if a user is subscribed.
 
-    This function checks if a user with the given user_id is first time using bot by
-    querying the database.
+    This function checks if a user with the given user_id is first time
+    using bot by querying the database.
 
     Args:
         user_id (int): The user ID to check subscription for.
 
     Returns:
-        is_first_time (bool): True if the user is first time using bot, False otherwise.
+        is_first_time (bool): True if the user is first time using bot, False
+            otherwise.
     """
 
     async with async_session() as session:
@@ -171,7 +172,7 @@ async def is_first_time(user_id: int) -> bool:
 
 
 async def is_user_exists(user_id: int) -> bool:
-    """Check if a user exists in the database.
+    """    Check if a user exists in the database.
 
     This function checks if a user with the given user_id exists in the
     database by querying the database.
@@ -192,7 +193,7 @@ async def is_user_exists(user_id: int) -> bool:
 
 
 async def set_first_time(user_id: int) -> None:
-    """Set the first time flag for a user.
+    """    Set the first time flag for a user.
 
     This function sets the first time flag for a user with the given user_id
     in the database.
