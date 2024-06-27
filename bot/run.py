@@ -7,7 +7,7 @@ import logging
 import sys
 
 from bot.ui_commands import set_ui_commands
-from bot.handlers import start, subscription
+from bot.handlers import start, subscription, donate
 from bot.utils.csv_filler import insert_town_table_csv
 from bot.utils.notifications import on_startup
 from config import settings
@@ -36,7 +36,7 @@ async def main():
     dp = Dispatcher()
     dp.startup.register(on_startup)
     dp.startup.register(insert_town_table_csv)
-    dp.include_routers(start.router, subscription.router)
+    dp.include_routers(start.router, subscription.router, donate.router)
 
     await set_ui_commands(bot)
     await bot.delete_webhook(drop_pending_updates=True)
