@@ -4,7 +4,7 @@ from bot.db import Base
 from config import settings
 
 
-engine = create_async_engine(settings.DB_URL, echo=False)
+engine = create_async_engine(settings.DB_URL, echo=True)
 async_session = async_sessionmaker(engine)
 
 
