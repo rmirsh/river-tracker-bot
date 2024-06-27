@@ -204,7 +204,7 @@ async def set_first_time(user_id: int) -> None:
     """
 
     async with async_session() as session:
-        if is_user_exists(user_id):
+        if await is_user_exists(user_id):
             await session.execute(
                 update(Subscription)
                 .where(Subscription.telegram_id == user_id)
