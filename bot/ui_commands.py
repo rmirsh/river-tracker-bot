@@ -15,5 +15,6 @@ async def set_ui_commands(bot: Bot):
     commands = [
         BotCommand(command="start", description="Запустить бота"),
         BotCommand(command="subscribe", description="Подписаться на уведомления"),
+        BotCommand(command="donate", description="Сделать пожертвование"),
     ]
     await bot.set_my_commands(commands=commands, scope=BotCommandScopeAllPrivateChats())
