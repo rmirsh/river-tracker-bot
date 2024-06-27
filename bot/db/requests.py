@@ -7,7 +7,7 @@ from sqlalchemy import select, delete, update
 
 
 async def add_subscription(user_id: int, town: str, chat_id: int):
-    """Add a new subscription for a user in a specific town.
+    """    Add a new subscription for a user in a specific town.
 
     This function adds a new subscription for a user in a specific town by
     creating entries in the database for Subscription and
@@ -38,7 +38,7 @@ async def add_subscription(user_id: int, town: str, chat_id: int):
 
 
 async def delete_subscription(user_id: int):
-    """Delete a subscription for a user based on the user ID.
+    """    Delete a subscription for a user based on the user ID.
 
     Args:
         user_id (int): The ID of the user whose subscription needs to be deleted.
@@ -166,7 +166,7 @@ async def is_user_exists(user_id: int) -> bool:
 
 
 async def set_first_time(user_id: int) -> None:
-    """Set the first time flag for a user.
+    """    Set the first time flag for a user.
 
     This function sets the first time flag for a user with the given user_id
     in the database.
