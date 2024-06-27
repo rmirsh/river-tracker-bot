@@ -6,7 +6,7 @@ router = Router()
 
 @router.message(Command("donate"))
 async def cmd_donate(message: types.Message):
-    """Donate to the project.
+    """    Donate to the project.
 
     This function sends a message to the user with a link to the project's
     donation page.
