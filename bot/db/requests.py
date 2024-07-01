@@ -7,7 +7,7 @@ from sqlalchemy import select, delete, update
 
 
 async def add_subscription(user_id: int, town: str, chat_id: int):
-    """Add a new subscription for a user in a specific town.
+    """    Add a new subscription for a user in a specific town.
 
     This function adds a new subscription for a user in a specific town by
     creating entries in the database for Subscription and
