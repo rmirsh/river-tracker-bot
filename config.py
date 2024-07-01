@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     POSTGRES_HOST_AUTH_METHOD: str = Field(env="POSTGRES_HOST_AUTH_METHOD", default="")
     POSTGRES_USER: str = Field(env="POSTGRES_USER")
     POSTGRES_PASSWORD: str | None = Field(env="POSTGRES_PASSWORD")
-    POSTGRES_DB: str = Field(env="POSTGRES_DB")
+    POSTGRES_DB: str = Field(env="POSTGRES_DB", default="")
 
     model_config = SettingsConfigDict(env_file=".env_prod", env_file_encoding="utf-8")
 
