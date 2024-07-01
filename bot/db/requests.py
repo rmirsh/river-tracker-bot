@@ -141,7 +141,7 @@ async def is_first_time(user_id: int) -> bool:
         if not await is_user_exists(user_id):
             return True
 
-    return ~first_time
+    return first_time
 
 
 async def is_user_exists(user_id: int) -> bool:
@@ -180,7 +180,7 @@ async def set_first_time(user_id: int) -> None:
             await session.execute(
                 update(Subscription)
                 .where(Subscription.telegram_id == user_id)
-                .values(is_first_time=True)
+                .values(is_first_time=False)
             )
         else:
             session.add(
@@ -188,7 +188,7 @@ async def set_first_time(user_id: int) -> None:
                     telegram_id=user_id,
                     chat_id=user_id,
                     is_subscribed=False,
-                    is_first_time=True,
+                    is_first_time=False,
                 )
             )
         await session.commit()
