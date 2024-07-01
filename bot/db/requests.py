@@ -23,7 +23,7 @@ async def add_subscription(user_id: int, town: str, chat_id: int):
         await session.execute(
             update(Subscription)
             .where(Subscription.telegram_id == user_id)
-            .values(is_subscrideb=True, chat_id=chat_id, town=town)
+            .values(is_subscribed=True, chat_id=chat_id)
         )
         subscription_id = await session.scalar(
             select(Subscription.id).where(Subscription.telegram_id == user_id)
