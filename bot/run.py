@@ -6,6 +6,7 @@ import asyncio
 import logging
 import sys
 
+from bot.db import async_main
 from bot.ui_commands import set_ui_commands
 from bot.handlers import start, subscription, donate
 from bot.utils.csv_filler import insert_town_table_csv
@@ -24,8 +25,7 @@ async def main():
         None.
     """
 
-    # Delegated to alembic
-    # await async_main()
+    await async_main()
 
     bot = Bot(
         settings.TOKEN,
