@@ -40,6 +40,11 @@ async def add_subscription(user_id: int, town: str, chat_id: int):
 async def delete_subscription(user_id: int):
     """Delete a subscription for a user based on the user ID.
 
+    This function updates the subscription status of a user in the database
+    by setting the 'is_subscribed' field to False. It uses an asynchronous
+    session to execute the update operation, ensuring that the changes are
+    committed to the database.
+
     Args:
         user_id (int): The ID of the user whose subscription needs to be deleted.
     """
@@ -56,8 +61,10 @@ async def delete_subscription(user_id: int):
 async def check_subscription(user_id: int) -> bool:
     """Check if a user is subscribed.
 
-    This function checks if a user with the given user_id is subscribed by
-    querying the database.
+    This function checks the subscription status of a user identified by the
+    given user_id. It queries the database to determine if the user is
+    currently subscribed. The function uses an asynchronous context manager
+    to handle the database session.
 
     Args:
         user_id (int): The user ID to check subscription for.
@@ -80,7 +87,8 @@ async def get_all_users():
     """Retrieve a list of users from the database.
 
     This function asynchronously fetches a list of users from the database
-    using an async session.
+    using an async session. It executes a query to select all user objects
+    from the SubscriptionTownAssociation table and returns the results.
 
     Returns:
         list: A list of user objects retrieved from the database.
