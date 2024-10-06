@@ -7,6 +7,7 @@ from sqlalchemy.orm import DeclarativeBase
 class Base(AsyncAttrs, DeclarativeBase):
     __abstract__ = True
 
+    # noinspection PyMethodParameters
     @declared_attr.directive
     def __tablename__(cls) -> str:
         """Return the table name for a given class.
