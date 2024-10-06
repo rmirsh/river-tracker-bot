@@ -33,7 +33,7 @@ class RiverDataParser:
             "Пятигорская": "ЭМЕРСИТ-0007Д",
         }
 
-    async def get_river_data(self, town: str) -> RiverData:
+    async def fetch_river_data(self, town: str) -> RiverData:
         if town not in self.town_mapper:
             raise ValueError(f"Город {town} не найден.")
         data = await self._get_data()
