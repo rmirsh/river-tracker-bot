@@ -6,7 +6,7 @@ from aiogram.types import ReplyKeyboardRemove
 from bot.db import requests
 from bot.keyboards import make_row_keyboard
 from bot.utils.states import SubscriptionState
-from emercit_parse.emercit_parser import towns
+from parser import river_parser
 
 router = Router()
 
@@ -48,7 +48,7 @@ async def subscription_done(message: types.Message, state: FSMContext):
 
     await state.update_data(subscription=message.text.lower())
     await message.answer(
-        "Выберите Ваш населённый пункт.\n", reply_markup=make_row_keyboard(towns)
+        "Выберите Ваш населённый пункт.\n", reply_markup=make_row_keyboard(river_parser.towns)
     )
     await state.set_state(SubscriptionState.choosing_town)
 
@@ -72,7 +72,7 @@ async def unsubscription_done(message: types.Message, state: FSMContext):
         "Если передумаете, то отправьте команду /subscribe",
         reply_markup=ReplyKeyboardRemove(),
     )
-    if requests.check_user_sub(message.from_user.id):
+    if requests.check_subscription(message.from_user.id):
         await requests.delete_subscription(message.from_user.id)
 
     await state.clear()
@@ -92,7 +92,7 @@ async def subscription_done_incorrectly(message: types.Message):
     )
 
 
-@router.message(SubscriptionState.choosing_town, F.text.in_(towns))
+@router.message(SubscriptionState.choosing_town, F.text.in_(river_parser.towns))
 async def town_chosed(message: types.Message, state: FSMContext):
     """Notify user about receiving notifications every 30 minutes when the
     water level
@@ -128,5 +128,5 @@ async def town_chosed_incorrectly(message: types.Message):
     await message.answer(
         "В моем списке населённых пунктов пока что такого нет.\n\n"
         " Пожалуйста, нажмите на кнопку ниже.",
-        reply_markup=make_row_keyboard(towns),
+        reply_markup=make_row_keyboard(river_parser.towns),
     )

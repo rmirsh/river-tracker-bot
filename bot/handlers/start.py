@@ -3,7 +3,7 @@ from aiogram.filters import CommandStart
 
 from bot.db.requests import is_first_time, set_first_time
 from bot.keyboards import get_town_kb
-from emercit_parse.async_emercit_parser import async_get_river_data, towns
+from parser import river_parser
 
 router = Router()
 
@@ -22,6 +22,7 @@ async def cmd_start(message: types.Message):
     # await message.answer(
     #     f"Привет, <b>{message.from_user.full_name}</b>! <u><i>Я пока в разработке</i></u>"
     # )
+
     await message.answer(
         f"Привет, <b>{message.from_user.full_name}</b>!\n"
         "Пожалуйста, выберите населённый пункт.",
@@ -33,7 +34,7 @@ async def cmd_start(message: types.Message):
         await message.answer(
             "Дорогие друзья! 🌟\n\n"
             "Этот бот создан, чтобы приносить пользу и предупреждать людей об опасности, "
-            "а также снять тревожность у пожилых людей и владельцев гаражей вдоль рек. "
+            "а также <b><i>снять тревожность у пожилых людей и владельцев гаражей вдоль рек.</i></b> "
             "Его разработкой занимаюсь <a href='tg://user?id=446913605'>я</a>, вкладывая в него много времени и усилий.\n"
             "Если вам нравится моя работа и вы хотите поддержать проект, вы можете сделать пожертвование "
             "(любая удобная Вам сумма). Ваш вклад ❤️ поможет мне продолжать развивать и улучшать сервис, "
@@ -43,7 +44,7 @@ async def cmd_start(message: types.Message):
         )
 
 
-@router.callback_query(F.data.in_(towns))
+@router.callback_query(F.data.in_(river_parser.towns))
 async def send_river_data(callback: types.CallbackQuery):
     """Send river data information based on the current river level compared to
     danger and prevention levels.
@@ -52,7 +53,7 @@ async def send_river_data(callback: types.CallbackQuery):
         callback (types.CallbackQuery): The callback query object.
     """
 
-    river_data = await async_get_river_data(callback.data)
+    river_data = await river_parser.fetch_river_data(callback.data)
     date = river_data.time.split()[0]
     time = river_data.time.split()[1][:-3]
 
