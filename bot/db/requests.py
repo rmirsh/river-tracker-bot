@@ -46,12 +46,14 @@ async def delete_subscription(user_id: int):
 
     async with async_session() as session:
         await session.execute(
-            delete(Subscription).where(Subscription.telegram_id == user_id)
+            update(Subscription)
+            .where(Subscription.telegram_id == user_id)
+            .values(is_subscribed=False)
         )
         await session.commit()
 
 
-async def check_user_sub(user_id: int) -> bool:
+async def check_subscription(user_id: int) -> bool:
     """Check if a user is subscribed.
 
     This function checks if a user with the given user_id is subscribed by
@@ -74,7 +76,7 @@ async def check_user_sub(user_id: int) -> bool:
         return is_subscribed
 
 
-async def get_users():
+async def get_all_users():
     """Retrieve a list of users from the database.
 
     This function asynchronously fetches a list of users from the database
