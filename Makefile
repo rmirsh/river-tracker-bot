@@ -1,5 +1,5 @@
 generate:
-	alembic revision --m="$(NAME)" --autogenerate
+	alembic revision --m="$(name)" --autogenerate
 
 
 migrate:
