@@ -15,14 +15,13 @@ from config import settings
 
 
 async def create_bot():
-    """Run the main function of the program.
+    """Create and return a bot instance.
 
-    This function initializes the bot, sets up the dispatcher, registers
-    startup functions, includes routers, sets UI commands, deletes webhook,
-    and starts polling.
+    This function initializes the bot with the appropriate token and default
+    properties. Sets up UI commands and returns the bot instance.
 
     Returns:
-        None.
+        bot (Bot): The initialized bot instance.
     """
     bot = Bot(
         token=settings.bot.token if settings.general.is_prod else settings.bot.test_token,
@@ -30,11 +29,28 @@ async def create_bot():
             parse_mode=ParseMode.HTML,
         ),
     )
+    await set_ui_commands(bot)
+    await bot.delete_webhook(drop_pending_updates=True)
+
+    return bot
+
+
+async def setup_dispather():
+    """Run the main function of the program.
+
+    This function sets up the dispatcher, registers
+    startup functions, includes router.
+
+    Returns:
+        dp (Dispatcher): The initialized dispatcher instance.
+    """
     dp = Dispatcher()
     dp.startup.register(on_startup)
     dp.startup.register(insert_town_table_csv)
-    dp.include_routers(start.router, subscription.router, donate.router)
+    dp.include_routers(
+        start.router,
+        subscription.router,
+        donate.router,
+    )
 
-    await set_ui_commands(bot)
-    await bot.delete_webhook(drop_pending_updates=True)
-    await dp.start_polling(bot)
+    return dp
