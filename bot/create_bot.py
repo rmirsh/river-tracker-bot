@@ -14,7 +14,7 @@ from bot.utils.notifications import on_startup
 from config import settings
 
 
-async def main():
+async def create_bot():
     """Run the main function of the program.
 
     This function initializes the bot, sets up the dispatcher, registers
@@ -24,11 +24,8 @@ async def main():
     Returns:
         None.
     """
-
-    await async_main()
-
     bot = Bot(
-        settings.TOKEN,
+        token=settings.bot.token if settings.general.is_prod else settings.bot.test_token,
         default=DefaultBotProperties(
             parse_mode=ParseMode.HTML,
         ),
@@ -41,8 +38,3 @@ async def main():
     await set_ui_commands(bot)
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
-
-
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
-    asyncio.run(main())
