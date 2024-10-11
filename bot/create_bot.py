@@ -14,7 +14,7 @@ from bot.utils.notifications import on_startup
 from config import settings
 
 
-async def create_bot():
+async def setup_bot():
     """Create and return a bot instance.
 
     This function initializes the bot with the appropriate token and default
