@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import ReplyKeyboardRemove
 
 from bot.db.crud import requests
-from bot.keyboards import make_row_keyboard
+from bot.utils.keyboards import make_row_keyboard
 from bot.utils.states import SubscriptionState
 from parser import river_parser
 

@@ -2,7 +2,7 @@ from aiogram import Router, types, F
 from aiogram.filters import CommandStart
 
 from bot.db.crud.requests import is_first_time, set_first_time
-from bot.keyboards import get_town_kb
+from bot.utils.keyboards import get_town_kb
 from parser import river_parser
 
 router = Router()

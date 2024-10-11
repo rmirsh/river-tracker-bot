@@ -5,10 +5,10 @@ import os
 from sqlalchemy import select
 
 from bot.db import Town
-from bot.db.make_models import async_session
+from bot.db.db_manager import db_manager
 
 
-async def insert_town_table_csv():
+async def insert_towns_from_csv():
     """Insert town data from a CSV file into the database.
 
     Reads the data from the specified CSV file containing town information.
@@ -19,7 +19,7 @@ async def insert_town_table_csv():
     with open("/app/bot/utils/towns_data.csv", "r") as csvfile:
         reader = csv.DictReader(csvfile)
 
-        async with async_session() as session:
+        async with db_manager.session_getter() as session:
             for row in reader:
                 record_exist = await session.scalar(
                     select(Town.town).where(Town.town == row["town_name"])
