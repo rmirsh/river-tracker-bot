@@ -2,19 +2,14 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 
-import asyncio
-import logging
-import sys
-
-from bot.db import async_main
-from bot.ui_commands import set_ui_commands
+from bot.utils.ui_commands import set_ui_commands
 from bot.handlers import start, subscription, donate
-from bot.utils.csv_filler import insert_town_table_csv
+from bot.utils.csv_filler import insert_towns_from_csv
 from bot.utils.notifications import on_startup
 from config import settings
 
 
-async def setup_bot():
+async def setup_bot(delete_webhooks: bool = True):
     """Create and return a bot instance.
 
     This function initializes the bot with the appropriate token and default
@@ -30,7 +25,7 @@ async def setup_bot():
         ),
     )
     await set_ui_commands(bot)
-    await bot.delete_webhook(drop_pending_updates=True)
+    await bot.delete_webhook(drop_pending_updates=delete_webhooks)
 
     return bot
 
@@ -46,7 +41,7 @@ async def setup_dispather():
     """
     dp = Dispatcher()
     dp.startup.register(on_startup)
-    dp.startup.register(insert_town_table_csv)
+    dp.startup.register(insert_towns_from_csv)
     dp.include_routers(
         start.router,
         subscription.router,
