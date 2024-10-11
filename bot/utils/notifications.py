@@ -2,7 +2,7 @@ import asyncio
 
 from aiogram import Bot
 
-from bot.db.requests import get_subs_chat_id_and_town
+from bot.db.crud.requests import get_subs_chat_id_and_town
 from config import settings
 from parser.parser import get_river_data
 

@@ -5,8 +5,8 @@ __all__ = (
     "SubscriptionTownAssociation",
 )
 
-from .base import Base
-from .town import Town
-from .subscription import Subscription
-from .subscriptions_towns_association import SubscriptionTownAssociation
+from bot.db.models.base import Base
+from bot.db.models.town import Town
+from bot.db.models.subscription import Subscription
+from bot.db.models.subscriptions_towns_association import SubscriptionTownAssociation
 

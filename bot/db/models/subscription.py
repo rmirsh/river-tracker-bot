@@ -3,11 +3,11 @@ from typing import TYPE_CHECKING
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import BigInteger
 
-from .base import Base
+from bot.db.models.base import Base
 
 if TYPE_CHECKING:
-    from .subscriptions_towns_association import SubscriptionTownAssociation
-    from .town import Town
+    from bot.db.models.subscriptions_towns_association import SubscriptionTownAssociation
+    from bot.db.models.town import Town
 
 
 class Subscription(Base):

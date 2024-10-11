@@ -8,7 +8,7 @@ from bot.db import Base
 
 if TYPE_CHECKING:
     from town import Town
-    from subscription import Subscription
+    from bot.db.models.subscription import Subscription
 
 
 class SubscriptionTownAssociation(Base):
