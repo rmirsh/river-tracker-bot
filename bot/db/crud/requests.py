@@ -19,7 +19,7 @@ async def add_subscription(user_id: int, town: str, chat_id: int):
         chat_id (int): The chat ID associated with the subscription.
     """
 
-    async with db_manager.session_getter() as session:
+    async for session in db_manager.session_getter():
         await session.execute(
             update(Subscription)
             .where(Subscription.telegram_id == user_id)
@@ -44,7 +44,7 @@ async def delete_subscription(user_id: int):
         user_id (int): The ID of the user whose subscription needs to be deleted.
     """
 
-    async with db_manager.session_getter() as session:
+    async for session in db_manager.session_getter():
         await session.execute(
             update(Subscription)
             .where(Subscription.telegram_id == user_id)
@@ -66,7 +66,7 @@ async def check_subscription(user_id: int) -> bool:
         bool: True if the user is subscribed, False otherwise.
     """
 
-    async with db_manager.session_getter() as session:
+    async for session in db_manager.session_getter():
         is_subscribed = await session.scalar(
             select(Subscription.is_subscribed).where(
                 Subscription.telegram_id == user_id
@@ -86,7 +86,7 @@ async def get_all_users():
         list: A list of user objects retrieved from the database.
     """
 
-    async with db_manager.session_getter() as session:
+    async for session in db_manager.session_getter():
         query = select(SubscriptionTownAssociation)
         result = await session.execute(query)
         users = result.all()
@@ -107,7 +107,7 @@ async def get_subs_chat_id_and_town():
             subscription.
     """
 
-    async with db_manager.session_getter() as session:
+    async for session in db_manager.session_getter():
         result = await session.execute(
             select(Subscription.chat_id, Town.town)
             .join(
@@ -134,7 +134,7 @@ async def is_first_time(user_id: int) -> bool:
         is_first_time (bool): True if the user is first time using bot, False otherwise.
     """
 
-    async with db_manager.session_getter() as session:
+    async for session in db_manager.session_getter():
         first_time = await session.scalar(
             select(Subscription.is_first_time).where(
                 Subscription.telegram_id == user_id
@@ -159,7 +159,7 @@ async def is_user_exists(user_id: int) -> bool:
         bool: True if the user exists in the database, False otherwise.
     """
 
-    async with db_manager.session_getter() as session:
+    async for session in db_manager.session_getter():
         exists = await session.scalar(
             select(Subscription).where(Subscription.telegram_id == user_id)
         )
@@ -177,7 +177,7 @@ async def set_first_time(user_id: int) -> None:
         user_id (int): The user ID for which the first time flag needs to be set.
     """
 
-    async with db_manager.session_getter() as session:
+    async for session in db_manager.session_getter():
         if await is_user_exists(user_id):
             await session.execute(
                 update(Subscription)
