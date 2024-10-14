@@ -1,8 +1,9 @@
 from aiogram import Router, types, F
 from aiogram.filters import CommandStart
 
+from bot.core.lexicon import lexicon_ru
 from bot.db.crud.requests import is_first_time, set_first_time
-from bot.utils.keyboards import get_town_kb
+from bot.core.keyboards import get_town_kb
 from parser import river_parser
 
 router = Router()
@@ -19,14 +20,8 @@ async def cmd_start(message: types.Message):
         message (types.Message): The message object containing user information.
     """
 
-    # await message.answer(
-    #     f"Привет, <b>{message.from_user.full_name}</b>! <u><i>Я пока в разработке</i></u>"
-    # )
-
     await message.answer(
-        f"Привет, <b>{message.from_user.full_name}</b>!\n"
-        "Пожалуйста, выберите населённый пункт.",
-        reply_markup=get_town_kb(),
+        text=lexicon_ru["/start"].format(name=message.from_user.full_name)
     )
 
     if await is_first_time(message.from_user.id):
