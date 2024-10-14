@@ -1,8 +1,11 @@
+import logging
 from dataclasses import dataclass
 from typing import Any
 
-import aiohttp
+import httpx
 from fake_useragent import UserAgent
+
+from config import settings
 
 
 @dataclass(slots=True, frozen=True)
@@ -16,6 +19,7 @@ class RiverData:
 class RiverDataParser:
 
     def __init__(self):
+        self.logger = self._setup_logger()
         self.random_agent = UserAgent().random
         self.url = "http://emercit.com/map/overall.php"
         self.headers = {
@@ -36,10 +40,27 @@ class RiverDataParser:
     async def fetch_river_data(self, town: str) -> RiverData:
         if town not in self.town_mapper:
             raise ValueError(f"Город {town} не найден.")
-        data = await self._get_data()
+        data = await self._fetch_data()
         town_data = self._format_town_data(data, town)
         parsed_data = self._parse_town_data(town_data)
         return parsed_data
+
+    def _setup_logger(self) -> logging.Logger:
+        """Настраивает и возвращает логгер для текущего объекта."""
+        logger = logging.getLogger(self.__class__.__name__)
+        logger.setLevel(logging.DEBUG)
+
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.DEBUG)
+
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        console_handler.setFormatter(formatter)
+
+        # Добавление обработчика в логгер
+        if not logger.hasHandlers():
+            logger.addHandler(console_handler)
+
+        return logger
 
     @staticmethod
     def _parse_town_data(town_data: dict[str, Any]) -> RiverData:
@@ -60,18 +81,22 @@ class RiverDataParser:
                 return town_data
         raise ValueError(f"Данные для города {town} не найдены.")
 
-    async def _get_data(self) -> dict[str, Any]:
-        async with aiohttp.ClientSession() as session:
+    async def _fetch_data(self) -> dict[str, Any]:
+        timeout = httpx.Timeout(timeout=settings.parser.timeout)
+        async with httpx.AsyncClient(timeout=timeout) as client:
+            self.logger.debug("Начало запроса к серверу")
             try:
-                response = await session.get(self.url, headers=self.headers)
+                response = await client.get(self.url, headers=self.headers)
+                self.logger.debug("Запрос выполнен, проверка статуса ответа")
                 response.raise_for_status()
-                return await response.json()
-            except (
-                aiohttp.ClientResponseError,
-                aiohttp.ClientConnectionError,
-                aiohttp.InvalidURL,
-            ) as e:
+                self.logger.debug("Ответ успешно получен")
+                return response.json()
+            except (httpx.HTTPStatusError, httpx.RequestError) as e:
+                self.logger.error(f"Ошибка HTTP-запроса: {e}")
                 raise RuntimeError(f"Ошибка при получении данных: {e}")
+            except Exception as e:
+                self.logger.error(f"Непредвиденная ошибка: {e}")
+                raise RuntimeError(f"Непредвиденная ошибка: {e}")
 
 
 river_parser = RiverDataParser()
