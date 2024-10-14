@@ -9,5 +9,3 @@ RUN pip3 install -r requirements.txt
 COPY . .
 
 ENV PYTHONPATH=/app
-
-CMD ["sh", "-c", "sleep 5 && python bot/run.py"]
