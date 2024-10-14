@@ -44,7 +44,7 @@ async def cmd_start(message: types.Message):
         )
 
 
-@router.callback_query(F.data.in_(river_parser.towns))
+@router.callback_query(F.data.in_(river_parser.town_mapper))
 async def send_river_data(callback: types.CallbackQuery):
     """Send river data information based on the current river level compared to
     danger and prevention levels.
