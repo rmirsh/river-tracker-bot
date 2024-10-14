@@ -15,6 +15,7 @@ class BotConfig(BaseModel):
 
 class ParserConfig(BaseModel):
     delay: int = 30 * 60
+    timeout: float = 10.0
 
 
 class DatabaseConfig(BaseModel):
@@ -58,6 +59,3 @@ def get_settings() -> Settings:
 
 
 settings = get_settings()
-
-if __name__ == "__main__":
-    print(settings)
