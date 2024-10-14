@@ -4,7 +4,7 @@ from aiogram import Bot
 
 from bot.db.crud.requests import get_subs_chat_id_and_town
 from config import settings
-from parser.parser import get_river_data
+from parser import river_parser
 
 
 async def send_warning(bot: Bot) -> None:
@@ -19,7 +19,7 @@ async def send_warning(bot: Bot) -> None:
         subs_id_town = await get_subs_chat_id_and_town()
         for row in subs_id_town:
             chat_id, town = row
-            river_data = await get_river_data(town)
+            river_data = await river_parser.fetch_river_data(town)
             if river_data.current_river_level >= river_data.prevention_level:
                 await bot.send_message(
                     chat_id,
@@ -32,7 +32,7 @@ async def send_warning(bot: Bot) -> None:
                     f"<u><b>‼️️ОПАСНОСТЬ‼️</b></u>\nУровень воды в населённом пункте {town} поднялся о опасных значений.\n"
                     f"Текущий уровень воды - <b>{river_data.current_river_level} м</b>",
                 )
-        await asyncio.sleep(settings.DELAY)
+        await asyncio.sleep(settings.parser.delay)
 
 
 async def on_startup(bot: Bot):

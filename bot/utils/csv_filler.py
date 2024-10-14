@@ -19,7 +19,7 @@ async def insert_towns_from_csv():
     with open("/app/bot/utils/towns_data.csv", "r") as csvfile:
         reader = csv.DictReader(csvfile)
 
-        async with db_manager.session_getter() as session:
+        async for session in db_manager.session_getter():
             for row in reader:
                 record_exist = await session.scalar(
                     select(Town.town).where(Town.town == row["town_name"])
