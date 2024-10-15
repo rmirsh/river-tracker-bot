@@ -1,5 +1,6 @@
 import logging
 from dataclasses import dataclass
+from datetime import date, datetime
 from typing import Any
 
 import httpx
@@ -13,6 +14,7 @@ class RiverData:
     current_river_level: float
     prevention_level: float
     danger_level: float
+    date: date
     time: str
 
 
@@ -69,7 +71,8 @@ class RiverDataParser:
             current_river_level=round(river_level["level"]["bs"], 3),
             prevention_level=river_level["prevention"]["bs"],
             danger_level=river_level["danger"]["bs"],
-            time=river_level["time"],
+            date=datetime.strptime(river_level["time"], "%d.%m.%Y").date(),
+            time=datetime.strptime(river_level["time"], "%H:%M").strftime("%H:%M"),
         )
 
     def _format_town_data(self, data: dict, town: str) -> dict[str, Any]:

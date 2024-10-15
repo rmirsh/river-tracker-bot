@@ -37,15 +37,21 @@ async def send_river_data(callback: types.CallbackQuery):
     """
 
     river_data = await river_parser.fetch_river_data(callback.data)
-    date = river_data.time.split()[0]
-    time = river_data.time.split()[1][:-3]
 
     if river_data.current_river_level >= river_data.danger_level:
-        answer_message = f"<b>‼️️ОПАСНОСТЬ‼️\n<u>На {date} в {time} в Вашем населённом пункте текущий уровень воды превышает опасный уровень воды.</u></b>"
+        answer_message = (
+            f"<b>‼️️ОПАСНОСТЬ‼️\n<u>На {river_data.date} в {river_data.time} "
+            f"в Вашем населённом пункте текущий уровень воды превышает опасный "
+            f"уровень воды.</u></b>"
+        )
         await callback.message.answer(answer_message)
 
     elif river_data.current_river_level >= river_data.prevention_level:
-        answer_message = f"<b>❗️УГРОЗА❗️\nНа {date} в {time} в Вашем населённом пункте текущий уровень воды превышает предупредительный уровень воды.</b>"
+        answer_message = (
+            f"<b>❗️УГРОЗА❗️\nНа {river_data.date} в {river_data.time} "
+            f"в Вашем населённом пункте текущий уровень воды превышает "
+            f"предупредительный уровень воды.</b>"
+        )
         await callback.message.answer(answer_message)
 
     await callback.message.answer(
