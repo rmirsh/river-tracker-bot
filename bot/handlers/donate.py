@@ -1,5 +1,6 @@
 from aiogram import Router, types
 from aiogram.filters import Command
+from aiogram.types import ReplyKeyboardRemove
 
 router = Router()
 
@@ -21,5 +22,5 @@ async def cmd_donate(message: types.Message):
         "в любое время.\n\n"
         "Отправить пожертвование можно на карту Сбербанка:\n"
         "<code>2202 2061 1476 2706</code>",
-        reply_markup=types.ReplyKeyboardRemove(),
+        reply_markup=ReplyKeyboardRemove(),
     )
