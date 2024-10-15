@@ -1,6 +1,6 @@
 import logging
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import datetime
 from typing import Any
 
 import httpx
@@ -14,7 +14,7 @@ class RiverData:
     current_river_level: float
     prevention_level: float
     danger_level: float
-    date: date
+    date: str
     time: str
 
 
@@ -65,14 +65,23 @@ class RiverDataParser:
         return logger
 
     @staticmethod
-    def _parse_town_data(town_data: dict[str, Any]) -> RiverData:
+    def _format_date_and_time(date_time: str) -> tuple[str, str]:
+        data_time = datetime.strptime(date_time, "%Y-%m-%d %H:%M:%S")
+        formatted_date = data_time.strftime("%d.%m.%Y")
+        formatted_time = data_time.strftime("%H:%M")
+
+        return formatted_date, formatted_time
+
+    def _parse_town_data(self, town_data: dict[str, Any]) -> RiverData:
         river_level = town_data["data"]["river_level"]
+        date, time = self._format_date_and_time(river_level["time"])
+
         return RiverData(
             current_river_level=round(river_level["level"]["bs"], 3),
             prevention_level=river_level["prevention"]["bs"],
             danger_level=river_level["danger"]["bs"],
-            date=datetime.strptime(river_level["time"], "%d.%m.%Y").date(),
-            time=datetime.strptime(river_level["time"], "%H:%M").strftime("%H:%M"),
+            date=date,
+            time=time,
         )
 
     def _format_town_data(self, data: dict, town: str) -> dict[str, Any]:
@@ -87,18 +96,18 @@ class RiverDataParser:
     async def _fetch_data(self) -> dict[str, Any]:
         timeout = httpx.Timeout(timeout=settings.parser.timeout)
         async with httpx.AsyncClient(timeout=timeout) as client:
-            self.logger.debug("Начало запроса к серверу")
+            # self.logger.debug("Начало запроса к серверу")
             try:
                 response = await client.get(self.url, headers=self.headers)
-                self.logger.debug("Запрос выполнен, проверка статуса ответа")
+                # self.logger.debug("Запрос выполнен, проверка статуса ответа")
                 response.raise_for_status()
-                self.logger.debug("Ответ успешно получен")
+                # self.logger.debug("Ответ успешно получен")
                 return response.json()
             except (httpx.HTTPStatusError, httpx.RequestError) as e:
-                self.logger.error(f"Ошибка HTTP-запроса: {e}")
+                # self.logger.error(f"Ошибка HTTP-запроса: {e}")
                 raise RuntimeError(f"Ошибка при получении данных: {e}")
             except Exception as e:
-                self.logger.error(f"Непредвиденная ошибка: {e}")
+                # self.logger.error(f"Непредвиденная ошибка: {e}")
                 raise RuntimeError(f"Непредвиденная ошибка: {e}")
 
 
