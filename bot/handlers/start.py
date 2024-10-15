@@ -3,7 +3,6 @@ from aiogram.filters import CommandStart
 
 from bot.core.lexicon import lexicon_ru
 from bot.db.crud.requests import is_first_time, set_first_time
-from bot.core.keyboards import get_town_kb
 from parser import river_parser
 
 router = Router()
@@ -20,11 +19,11 @@ async def cmd_start(message: types.Message):
         message (types.Message): The message object containing user information.
     """
 
-    await message.answer(lexicon_ru["/start"].format(name=message.from_user.full_name))
+    await message.answer(lexicon_ru["/start"]["welcome-msg"].format(name=message.from_user.full_name))
 
     if await is_first_time(message.from_user.id):
         await set_first_time(message.from_user.id)
-        await message.answer(lexicon_ru["/donate"])
+        await message.answer(lexicon_ru["/start"]["donate-msg"])
 
 
 @router.callback_query(F.data.in_(river_parser.town_mapper))
