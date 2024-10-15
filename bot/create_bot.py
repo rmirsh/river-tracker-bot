@@ -2,7 +2,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 
-from bot.core.ui_commands import set_ui_commands
+from bot.core.bot_commands import set_ui_commands
 from bot.handlers import start, subscription, donate
 from bot.utils.csv_filler import insert_towns_from_csv
 from bot.utils.notifications import on_startup
