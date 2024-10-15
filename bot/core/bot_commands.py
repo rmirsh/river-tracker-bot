@@ -4,7 +4,8 @@ from aiogram.types import BotCommandScopeAllPrivateChats, BotCommand
 commands = {
     "/start": "Запустить бота",
     "/subscribe": "Подписаться на уведомления",
-    "/donate": "Сделать пожертвование"
+    "/donate": "Сделать пожертвование",
+    "/get_data": "Получить данные об уровне реки",
 }
 
 

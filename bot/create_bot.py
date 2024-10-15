@@ -3,7 +3,7 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 
 from bot.core.bot_commands import set_ui_commands
-from bot.handlers import start, subscription, donate
+from bot.handlers import start, subscription, donate, get_data
 from bot.utils.csv_filler import insert_towns_from_csv
 from bot.utils.notifications import on_startup
 from config import settings
@@ -46,6 +46,7 @@ async def setup_dispather():
         start.router,
         subscription.router,
         donate.router,
+        get_data.router
     )
 
     return dp
