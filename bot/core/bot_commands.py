@@ -1,11 +1,11 @@
 from aiogram import Bot
 from aiogram.types import BotCommandScopeAllPrivateChats, BotCommand
 
-bot_commands = (
-    BotCommand(command="start", description="Запустить бота"),
-    BotCommand(command="subscribe", description="Подписаться на уведомления"),
-    BotCommand(command="donate", description="Сделать пожертвование"),
-)
+commands = {
+    "/start": "Запустить бота",
+    "/subscribe": "Подписаться на уведомления",
+    "/donate": "Сделать пожертвование"
+}
 
 
 async def set_ui_commands(bot: Bot):
@@ -17,4 +17,6 @@ async def set_ui_commands(bot: Bot):
     Args:
         bot (Bot): The Bot instance to set the commands for.
     """
+    bot_commands = [BotCommand(command=key, description=value) for key, value in commands.items()]
+
     await bot.set_my_commands(commands=bot_commands, scope=BotCommandScopeAllPrivateChats())
