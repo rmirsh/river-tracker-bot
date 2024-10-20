@@ -36,6 +36,8 @@ lexicon_ru: dict[str, str | dict] = {
                       "Опасный уровень воды: <b>{danger_level} м</b>\n"
     },
 
+    "/unsubscribe": "",
+
     "error": "Что-то пошло не так. Попробуйте позже.",
 
     "/donate": "",
