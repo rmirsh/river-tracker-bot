@@ -33,10 +33,10 @@ async def cmd_subscribe(message: types.Message, state: FSMContext):
         "Хотите подписаться на уведомления?\n",
         reply_markup=make_row_keyboard(["Да", "Нет"]),
     )
-    await state.set_state(SubscriptionState.setting_sub)
+    await state.set_state(SubscriptionState.set_sub)
 
 
-@router.message(SubscriptionState.setting_sub, F.text == "Да")
+@router.message(SubscriptionState.set_sub, F.text.lower() == "да")
 async def subscription_done(message: types.Message, state: FSMContext):
     """Update the subscription data in the state and prompt the user to choose
     their town.
@@ -53,7 +53,7 @@ async def subscription_done(message: types.Message, state: FSMContext):
     await state.set_state(SubscriptionState.choosing_town)
 
 
-@router.message(SubscriptionState.setting_sub, F.text == "Нет")
+@router.message(SubscriptionState.set_sub, F.text.lower() == "нет")
 async def unsubscription_done(message: types.Message, state: FSMContext):
     """Update user subscription status to unsubscribe.
 
@@ -78,7 +78,7 @@ async def unsubscription_done(message: types.Message, state: FSMContext):
     await state.clear()
 
 
-@router.message(SubscriptionState.setting_sub)
+@router.message(SubscriptionState.set_sub)
 async def subscription_done_incorrectly(message: types.Message):
     """Display a message asking the user to choose between 'да' or 'нет'.
 
